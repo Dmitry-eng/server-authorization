@@ -1,5 +1,6 @@
 package com.jwt.server.config;
 
+import com.jwt.server.dto.ExpirationTime;
 import com.jwt.server.tool.JwtHelper;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -17,9 +18,9 @@ public class SpringConfig {
     private String jwtRefreshSecret;
 
     @Bean
-    public JwtHelper jwtTool() {
+    public JwtHelper jwtTool(ExpirationTime accessExpirationTime, ExpirationTime refreshExpirationTime) {
         SecretKey accessSecretKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(this.jwtAccessSecret));
         SecretKey refreshSecretKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(this.jwtRefreshSecret));
-        return new JwtHelper(accessSecretKey, refreshSecretKey);
+        return new JwtHelper(accessSecretKey, refreshSecretKey, accessExpirationTime, refreshExpirationTime);
     }
 }

@@ -5,12 +5,12 @@ import lombok.Data;
 @Data
 public class ExpirationTime {
 
-    private long day;
+    private Long day;
 
-    private long hour;
+    private Long hour;
 
-    private long minute;
+    private Long minute;
 
-    private long second;
+    private Long second;
 
 }

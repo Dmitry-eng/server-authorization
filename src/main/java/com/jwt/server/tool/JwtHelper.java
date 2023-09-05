@@ -27,15 +27,11 @@ public class JwtHelper {
 
     private final SecretKey jwtAccessSecret;
     private final SecretKey jwtRefreshSecret;
+    private final ExpirationTime accessExpirationTime;
+    private final ExpirationTime refreshExpirationTime;
 
     @Value("${service-name}")
     private String serviceName;
-
-    @Value("${expiration-time.access}")
-    private ExpirationTime accessExpirationTime;
-
-    @Value("${expiration-time.refresh}")
-    private ExpirationTime refreshExpirationTime;
 
 
     public String generateAccessToken(@NonNull Authorization authorization) {
