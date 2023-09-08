@@ -13,21 +13,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/auth")
 @RequiredArgsConstructor
-public class AuthController {
-
-    private final AuthService authAccount;
+@RequestMapping("/company/auth")
+public class AuthCompanyController {
+    private final AuthService authApiClient;
 
     @PostMapping("/login")
     public ResponseEntity<JwtResponse> login(@RequestBody @Valid JwtRequest authRequest) {
-            JwtResponse token = authAccount.login(authRequest);
+        JwtResponse token = authApiClient.login(authRequest);
+
         return ResponseEntity.ok(token);
     }
 
     @PostMapping("/refresh")
     public ResponseEntity<JwtResponse> getNewTokenByRefresh(@RequestBody @Valid RefreshJwtRequest request) {
-        JwtResponse token = authAccount.refresh(request.getRefreshToken());
+        JwtResponse token = authApiClient.refresh(request.getRefreshToken());
         return ResponseEntity.ok(token);
     }
 }

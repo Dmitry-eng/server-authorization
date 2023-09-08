@@ -6,7 +6,6 @@ import com.jwt.server.dto.authorization.Authorization;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -33,8 +32,7 @@ public class JwtHelper {
     @Value("${service-name}")
     private String serviceName;
 
-
-    public String generateAccessToken(@NonNull Authorization authorization) {
+    public String generateAccessToken(Authorization authorization) {
         return Jwts.builder()
                 .setSubject(authorization.getLogin())
                 .setExpiration(getExpirationDate(accessExpirationTime))

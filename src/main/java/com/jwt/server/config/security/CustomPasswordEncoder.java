@@ -2,7 +2,9 @@ package com.jwt.server.config.security;
 
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.io.Encoders;
+import io.netty.util.internal.StringUtil;
 import lombok.SneakyThrows;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -14,7 +16,6 @@ public class CustomPasswordEncoder implements PasswordEncoder {
     private String key;
     private static final String ALGORITHM = "SHA-256";
 
-
     @SneakyThrows
     public String encode(CharSequence rawPassword) {
         MessageDigest md = MessageDigest.getInstance(ALGORITHM);
@@ -24,6 +25,6 @@ public class CustomPasswordEncoder implements PasswordEncoder {
     }
 
     public boolean matches(CharSequence rawPassword, String encodedPassword) {
-        return false;
+        return encode(rawPassword).equals(encodedPassword);
     }
 }

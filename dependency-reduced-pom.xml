@@ -10,7 +10,7 @@
   <groupId>com.authorization</groupId>
   <artifactId>auth</artifactId>
   <name>auth-service</name>
-  <version>1.0.8</version>
+  <version>1.0.29</version>
   <description>server authorization</description>
   <build>
     <finalName>security-starter</finalName>
