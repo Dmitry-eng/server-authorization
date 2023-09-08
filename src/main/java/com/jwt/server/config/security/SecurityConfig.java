@@ -1,11 +1,10 @@
 package com.jwt.server.config.security;
 
-//import com.jwt.server.config.CustomUserDetailsService;
+import com.jwt.server.config.CustomUserDetailsService;
 import com.jwt.server.dto.ExpirationTime;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.configurers.userdetails.DaoAuthenticationConfigurer;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -17,7 +16,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(
-    prePostEnabled = true
+        prePostEnabled = true
 )
 public class SecurityConfig {
 
@@ -40,12 +39,13 @@ public class SecurityConfig {
 
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-                http
-                        .csrf(AbstractHttpConfigurer::disable)
+    public SecurityFilterChain filterChain(HttpSecurity http, CustomUserDetailsService service) throws Exception {
+        http
+                .csrf(AbstractHttpConfigurer::disable)
+                .userDetailsService(service)
                 .authorizeHttpRequests((authorize) ->
-                        authorize.requestMatchers("/test/**", "/account/auth/login").permitAll()
-                ).formLogin(
+                        authorize.requestMatchers("/js/**", "/test/**", "/account/auth/login").permitAll())
+                .formLogin(
                         form -> form
                                 .loginPage("/login")
                                 .defaultSuccessUrl("/welcome")
