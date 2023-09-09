@@ -30,4 +30,9 @@ public class AuthAccountController {
         JwtResponse token = authAccount.refresh(request.getRefreshToken());
         return ResponseEntity.ok(token);
     }
+
+    @PostMapping("/logout")
+    public void getNewTokenByRefresh() {
+        authAccount.logout();
+    }
 }

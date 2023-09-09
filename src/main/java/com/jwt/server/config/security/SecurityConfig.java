@@ -1,6 +1,8 @@
 package com.jwt.server.config.security;
 
 import com.jwt.server.config.CustomUserDetailsService;
+import com.jwt.server.config.filter.AccountJwtFilter;
+import com.jwt.server.config.filter.CookieFilter;
 import com.jwt.server.dto.ExpirationTime;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.intercept.AuthorizationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
@@ -39,10 +42,12 @@ public class SecurityConfig {
 
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http, CustomUserDetailsService service) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http, CustomUserDetailsService service, AccountJwtFilter accountJwtFilter, CookieFilter cookieFilter) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .userDetailsService(service)
+                .addFilterBefore(cookieFilter, AuthorizationFilter.class)
+                .addFilterBefore(accountJwtFilter, CookieFilter.class)
                 .authorizeHttpRequests((authorize) ->
                         authorize.requestMatchers("/js/**", "/test/**", "/account/auth/login").permitAll())
                 .formLogin(

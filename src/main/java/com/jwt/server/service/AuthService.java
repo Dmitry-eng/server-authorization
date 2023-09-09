@@ -9,4 +9,6 @@ public interface AuthService {
 
     JwtResponse refresh(String refreshToken);
 
+    void logout();
+
 }

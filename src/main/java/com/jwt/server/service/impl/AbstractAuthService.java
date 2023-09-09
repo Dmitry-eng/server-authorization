@@ -8,6 +8,7 @@ import com.jwt.server.service.AuthService;
 import com.jwt.server.service.cache.Cache;
 import com.jwt.server.tool.JwtHelper;
 import io.jsonwebtoken.Claims;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,6 +26,9 @@ public abstract class AbstractAuthService implements AuthService {
     protected JwtHelper jwtHelper;
     @Autowired
     protected PasswordEncoder passwordEncoder;
+
+    @Autowired
+    protected HttpServletResponse httpServletResponse;
 
     @SneakyThrows
     @Override
@@ -61,6 +65,11 @@ public abstract class AbstractAuthService implements AuthService {
             }
         }
             throw new SecurityException(INVALID_JWT_TOKEN);
+    }
+
+    @Override
+    public void logout() {
+
     }
 
     protected JwtResponse generateToken(Authorization authorization) {

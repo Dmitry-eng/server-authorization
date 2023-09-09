@@ -3,6 +3,7 @@ package com.jwt.server.config.filter;
 import com.jwt.server.dto.AuthType;
 import com.jwt.server.dto.JwtAuthentication;
 import com.jwt.server.dto.authorization.Authorization;
+import com.jwt.server.exception.SecurityException;
 import com.jwt.server.service.AccountRepository;
 import com.jwt.server.tool.JwtHelper;
 import io.jsonwebtoken.Claims;
@@ -14,15 +15,18 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
 
 import java.util.Objects;
+import java.util.Optional;
 
 import static com.jwt.server.config.filter.Constant.ACCOUNT_NOT_FOUND;
 import static com.jwt.server.config.filter.Constant.ACCOUNT_TYPE;
 import static com.jwt.server.config.filter.Constant.HASH_PASSWORD;
 import static com.jwt.server.config.filter.Constant.LOGIN;
 
+@Component
 @RequiredArgsConstructor
 public class AccountJwtFilter extends GenericFilterBean {
     private final JwtHelper jwtHelper;
@@ -33,8 +37,14 @@ public class AccountJwtFilter extends GenericFilterBean {
         String token = FilterUtil.getTokenFromRequest((HttpServletRequest) servletRequest);
         if (Objects.nonNull(token) && jwtHelper.validateAccessToken(token)) {
             Claims claims = jwtHelper.getAccessClaims(token);
-            if (AuthType.COMPANY.equals(claims.get(ACCOUNT_TYPE, AuthType.class))) {
+
+            AuthType type = Optional.of(claims.get(ACCOUNT_TYPE, String.class))
+                    .map(AuthType::valueOf)
+                    .orElseThrow(() -> new SecurityException("Incorrect token"));
+
+            if (AuthType.COMPANY.equals(type)) {
                 filterChain.doFilter(servletRequest, servletResponse);
+                return;
             }
 
             JwtAuthentication jwtAuthentication = jwtHelper.generate(claims);
@@ -48,9 +58,11 @@ public class AccountJwtFilter extends GenericFilterBean {
                 jwtAuthentication.setAuthenticated(true);
                 SecurityContextHolder.getContext().setAuthentication(jwtAuthentication);
             }
+        } else {
+            filterChain.doFilter(servletRequest, servletResponse);
         }
 
-        filterChain.doFilter(servletRequest, servletResponse);
+
     }
 
 }

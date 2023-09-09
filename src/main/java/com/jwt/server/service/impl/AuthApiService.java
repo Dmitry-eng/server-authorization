@@ -4,7 +4,6 @@ import com.jwt.server.dto.authorization.Authorization;
 import com.jwt.server.service.CompanyRepository;
 import com.jwt.server.service.cache.Cache;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
