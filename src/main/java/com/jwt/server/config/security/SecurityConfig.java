@@ -40,16 +40,22 @@ public class SecurityConfig {
         return new CustomPasswordEncoder();
     }
 
-
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http, CustomUserDetailsService service, AccountJwtFilter accountJwtFilter, CookieFilter cookieFilter) throws Exception {
+    public SecurityFilterChain filterChain(CustomAuthencationProvider customAuthencationProvider, CustomUserDetailsService customUserDetailsService, HttpSecurity http, CustomUserDetailsService service, AccountJwtFilter accountJwtFilter, CookieFilter cookieFilter) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
+                .userDetailsService(customUserDetailsService)
+                .authenticationProvider(customAuthencationProvider)
                 .userDetailsService(service)
                 .addFilterBefore(cookieFilter, AuthorizationFilter.class)
                 .addFilterBefore(accountJwtFilter, CookieFilter.class)
                 .authorizeHttpRequests((authorize) ->
                         authorize.requestMatchers("/js/**", "/test/**", "/account/auth/login").permitAll())
+                .addFilterBefore(cookieFilter, AuthorizationFilter.class)
+                .addFilterBefore(accountJwtFilter, CookieFilter.class)
+                .userDetailsService(customUserDetailsService)
+                .authenticationProvider(customAuthencationProvider)
+
                 .formLogin(
                         form -> form
                                 .loginPage("/login")
@@ -59,7 +65,7 @@ public class SecurityConfig {
                         logout -> logout
                                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                                 .permitAll()
-                );
+                ).authorizeHttpRequests().anyRequest().authenticated();
         return http.build();
     }
 }

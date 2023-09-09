@@ -59,9 +59,9 @@ public class CookieFilter extends GenericFilterBean {
                 jwtAuthentication.setAuthenticated(true);
                 SecurityContextHolder.getContext().setAuthentication(jwtAuthentication);
             }
-        } else {
-            filterChain.doFilter(servletRequest, servletResponse);
         }
+            filterChain.doFilter(servletRequest, servletResponse);
+
     }
 
 }

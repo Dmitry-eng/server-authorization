@@ -58,9 +58,9 @@ public class AccountJwtFilter extends GenericFilterBean {
                 jwtAuthentication.setAuthenticated(true);
                 SecurityContextHolder.getContext().setAuthentication(jwtAuthentication);
             }
-        } else {
-            filterChain.doFilter(servletRequest, servletResponse);
         }
+            filterChain.doFilter(servletRequest, servletResponse);
+
 
 
     }
