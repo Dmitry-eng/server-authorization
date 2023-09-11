@@ -12,7 +12,6 @@ import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSeriali
 import org.springframework.data.redis.serializer.RedisSerializationContext.SerializationPair;
 
 import static com.jwt.server.service.cache.RedisType.CLIENT_REFRESH_TOKEN;
-import static com.jwt.server.service.cache.RedisType.COMPANY_REFRESH_TOKEN;
 
 @Configuration
 public class RedisConfig {
@@ -31,13 +30,7 @@ public class RedisConfig {
     }
 
     @Bean
-    public RedisCacheManagerBuilderCustomizer companyRedisCacheManagerBuilderCustomizer() {
-        return (builder) -> builder.withCacheConfiguration(COMPANY_REFRESH_TOKEN.getValue(),
-                RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofHours(30L)));
-    }
-
-    @Bean
     public CacheManager cacheManager() {
-        return new ConcurrentMapCacheManager(CLIENT_REFRESH_TOKEN.getValue(), COMPANY_REFRESH_TOKEN.getValue());
+        return new ConcurrentMapCacheManager(CLIENT_REFRESH_TOKEN.getValue());
     }
 }

@@ -16,7 +16,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 
-import static com.jwt.server.config.filter.Constant.ACCOUNT_TYPE;
 import static com.jwt.server.config.filter.Constant.HASH_PASSWORD;
 import static com.jwt.server.config.filter.Constant.LOGIN;
 import static com.jwt.server.config.filter.Constant.SERVICE;
@@ -37,7 +36,6 @@ public class JwtHelper {
                 .setSubject(authorization.getLogin())
                 .setExpiration(getExpirationDate(accessExpirationTime))
                 .signWith(jwtAccessSecret)
-                .claim(ACCOUNT_TYPE, authorization.getAccountType())
                 .claim(LOGIN, authorization.getLogin())
                 .claim(HASH_PASSWORD, authorization.getPassword())
                 .claim(SERVICE, serviceName)

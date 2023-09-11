@@ -8,9 +8,9 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.authorization</groupId>
-  <artifactId>auth</artifactId>
-  <name>auth-service</name>
-  <version>1.0.36</version>
+  <artifactId>starter</artifactId>
+  <name>auth-service-starter</name>
+  <version>1.0.38</version>
   <description>server authorization</description>
   <build>
     <finalName>security-starter</finalName>

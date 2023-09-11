@@ -5,15 +5,11 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public final class Constant {
 
-    public static final String ACCOUNT_TYPE = "account_type";
-    public static final String COMPANY_NOT_FOUND = "Company not found";
     public static final String HASH_PASSWORD = "hashPassword";
-    public static final String BEARER = "Bearer ";
     public static final String LOGIN = "login";
     public static final String AUTHORIZATION = "Authorization";
     public static final String ACCOUNT_NOT_FOUND = "Account not found";
     public static final String INCORRECT_PASSWORD = "Incorrect password";
     public static final String INVALID_JWT_TOKEN = "Invalid JWT token";
-
     public static final String SERVICE = "service";
 }

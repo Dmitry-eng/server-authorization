@@ -1,6 +1,6 @@
 package com.jwt.server.dto.authorization;
 
-import com.jwt.server.dto.AuthType;
+//import com.jwt.server.dto.AuthType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.security.core.GrantedAuthority;
@@ -11,43 +11,45 @@ import java.util.Collection;
 import java.util.List;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class Account extends AbstractModel implements UserDetails {
+public class Account implements Authorization {
 
     private String name;
 
-    @Override
-    public AuthType getAccountType() {
-        return AuthType.ACCOUNT;
-    }
+    private Long id;
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
-    }
+    private String login;
 
-    @Override
-    public String getUsername() {
-        return getLogin();
-    }
+    private String password;
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
+    private Boolean activated;
 
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
+//    @Override
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+//    }
+//
+//    @Override
+//    public String getUsername() {
+//        return getLogin();
+//    }
 
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
+//    @Override
+//    public boolean isAccountNonExpired() {
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean isAccountNonLocked() {
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean isCredentialsNonExpired() {
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean isEnabled() {
+//        return true;
+//    }
 }

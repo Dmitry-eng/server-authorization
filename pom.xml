@@ -10,9 +10,9 @@
     </parent>
 
     <groupId>com.authorization</groupId>
-    <artifactId>auth</artifactId>
-    <version>1.0.36</version>
-    <name>auth-service</name>
+    <artifactId>starter</artifactId>
+    <version>1.0.38</version>
+    <name>auth-service-starter</name>
     <packaging>jar</packaging>
     <description>server authorization</description>
 

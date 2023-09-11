@@ -11,6 +11,7 @@ import java.util.Set;
 
 @Data
 public class JwtAuthentication implements Authentication {
+
     private static final String ROLE_NAME = "USER";
 
     private Boolean authenticated;

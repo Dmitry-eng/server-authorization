@@ -1,7 +1,6 @@
 package com.jwt.server.config.security;
 
 import com.jwt.server.config.CustomUserDetailsService;
-import com.jwt.server.config.filter.AccountJwtFilter;
 import com.jwt.server.config.filter.CookieFilter;
 import com.jwt.server.dto.ExpirationTime;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -41,30 +40,17 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(CustomAuthencationProvider customAuthencationProvider, CustomUserDetailsService customUserDetailsService, HttpSecurity http, CustomUserDetailsService service, AccountJwtFilter accountJwtFilter, CookieFilter cookieFilter) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http, CustomUserDetailsService service, CookieFilter cookieFilter) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
-                .userDetailsService(customUserDetailsService)
-                .authenticationProvider(customAuthencationProvider)
                 .userDetailsService(service)
                 .addFilterBefore(cookieFilter, AuthorizationFilter.class)
-                .addFilterBefore(accountJwtFilter, CookieFilter.class)
                 .authorizeHttpRequests((authorize) ->
-                        authorize.requestMatchers("/js/**", "/test/**").permitAll().requestMatchers("/login/**", "/account/auth/login").hasRole("ANONYMOUS").anyRequest().authenticated()
+                        authorize.requestMatchers("/js/**").permitAll().requestMatchers("/login/**", "/account/auth/login").hasRole("ANONYMOUS").anyRequest().authenticated()
                 )
-                .addFilterBefore(cookieFilter, AuthorizationFilter.class)
-                .addFilterBefore(accountJwtFilter, CookieFilter.class)
-                .userDetailsService(customUserDetailsService)
-                .authenticationProvider(customAuthencationProvider)
-
                 .formLogin(
                         form -> form
                                 .loginPage("/login")
-                                .defaultSuccessUrl("/")
-                                .permitAll()
-                ).logout(
-                        logout -> logout
-                                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                                 .permitAll()
                 );
         return http.build();

@@ -31,8 +31,4 @@ public class AuthAccountController {
         return ResponseEntity.ok(token);
     }
 
-    @PostMapping("/logout")
-    public void getNewTokenByRefresh() {
-        authAccount.logout();
-    }
 }
