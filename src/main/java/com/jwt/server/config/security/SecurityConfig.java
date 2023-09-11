@@ -50,7 +50,8 @@ public class SecurityConfig {
                 .addFilterBefore(cookieFilter, AuthorizationFilter.class)
                 .addFilterBefore(accountJwtFilter, CookieFilter.class)
                 .authorizeHttpRequests((authorize) ->
-                        authorize.requestMatchers("/js/**", "/test/**", "/account/auth/login").permitAll())
+                        authorize.requestMatchers("/js/**", "/test/**").permitAll().requestMatchers("/login/**", "/account/auth/login").hasRole("ANONYMOUS").anyRequest().authenticated()
+                )
                 .addFilterBefore(cookieFilter, AuthorizationFilter.class)
                 .addFilterBefore(accountJwtFilter, CookieFilter.class)
                 .userDetailsService(customUserDetailsService)
@@ -59,13 +60,13 @@ public class SecurityConfig {
                 .formLogin(
                         form -> form
                                 .loginPage("/login")
-                                .defaultSuccessUrl("/welcome")
+                                .defaultSuccessUrl("/")
                                 .permitAll()
                 ).logout(
                         logout -> logout
                                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                                 .permitAll()
-                ).authorizeHttpRequests().anyRequest().authenticated();
+                );
         return http.build();
     }
 }

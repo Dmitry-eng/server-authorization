@@ -4,7 +4,7 @@ import com.jwt.server.dto.AuthType;
 import com.jwt.server.dto.JwtAuthentication;
 import com.jwt.server.dto.authorization.Authorization;
 import com.jwt.server.exception.SecurityException;
-import com.jwt.server.service.AccountRepository;
+import com.jwt.server.service.SecurityAccountRepository;
 import com.jwt.server.tool.JwtHelper;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
@@ -30,7 +30,7 @@ import static com.jwt.server.config.filter.Constant.LOGIN;
 @RequiredArgsConstructor
 public class AccountJwtFilter extends GenericFilterBean {
     private final JwtHelper jwtHelper;
-    private final AccountRepository accountRepository;
+    private final SecurityAccountRepository securityAccountRepository;
 
     @SneakyThrows
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) {
@@ -51,7 +51,7 @@ public class AccountJwtFilter extends GenericFilterBean {
             String password = claims.get(HASH_PASSWORD, String.class);
             String login = claims.get(LOGIN, String.class);
 
-            Authorization account = this.accountRepository.findByLogin(login)
+            Authorization account = this.securityAccountRepository.findByLogin(login)
                     .orElseThrow(() -> new UsernameNotFoundException(ACCOUNT_NOT_FOUND));
 
             if (FilterUtil.validatePassword(password, account)) {
