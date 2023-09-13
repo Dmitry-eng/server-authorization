@@ -5,4 +5,6 @@ public interface Authorization {
 
     String getPassword();
 
+    boolean isActivated();
+
 }

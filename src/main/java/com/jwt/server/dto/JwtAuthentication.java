@@ -35,7 +35,7 @@ public class JwtAuthentication implements Authentication {
 
     @Override
     public Object getDetails() {
-        return "1";
+        return null;
     }
 
     @Override
@@ -55,6 +55,6 @@ public class JwtAuthentication implements Authentication {
 
     @Override
     public String getName() {
-        return firstName;
+        return username;
     }
 }

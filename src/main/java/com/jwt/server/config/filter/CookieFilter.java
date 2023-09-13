@@ -43,7 +43,7 @@ public class CookieFilter extends GenericFilterBean {
                     .orElseThrow(() -> new UsernameNotFoundException(ACCOUNT_NOT_FOUND));
 
             if (FilterUtil.validatePassword(password, account)) {
-                jwtAuthentication.setAuthenticated(true);
+                jwtAuthentication.setAuthenticated(account.isActivated());
                 SecurityContextHolder.getContext().setAuthentication(jwtAuthentication);
             }
         }

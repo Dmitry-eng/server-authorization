@@ -45,7 +45,7 @@ public class SecurityConfig {
                 .userDetailsService(service)
                 .addFilterBefore(cookieFilter, AuthorizationFilter.class)
                 .authorizeHttpRequests((authorize) ->
-                        authorize.requestMatchers("/js/**").permitAll().requestMatchers("/login/**", "/account/auth/login").hasRole("ANONYMOUS").anyRequest().authenticated()
+                        authorize.requestMatchers("/test/**","/js/**").permitAll().requestMatchers("/login/**", "/account/auth/login").hasRole("ANONYMOUS").anyRequest().authenticated()
                 )
                 .formLogin(
                         form -> form
