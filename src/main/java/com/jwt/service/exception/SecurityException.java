@@ -1,0 +1,12 @@
+package com.jwt.service.exception;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
+public class SecurityException extends RuntimeException {
+
+    private String message;
+
+}
